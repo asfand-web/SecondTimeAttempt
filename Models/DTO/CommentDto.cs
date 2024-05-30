@@ -5,8 +5,6 @@ namespace SecondTimeAttempt.Models.DTO
 {
     public class CommentDto
     {
-        public Guid Id { get; set; }  // Added Id property
-
         [Required(ErrorMessage = "Text content is required.")]
         public string Text { get; set; } = null!;
 

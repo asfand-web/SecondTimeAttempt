@@ -6,12 +6,7 @@ namespace SecondTimeAttempt.Models.DTO
 
     public class ResponseDto
     {
-
         public string Email { get; set; } 
-                            
-
-       
-
 
     }
 }

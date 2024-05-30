@@ -42,7 +42,7 @@ namespace SecondTimeAttempt.Controllers
         public async Task<IActionResult> InsertSingle([FromBody] InsertCommentDto insertCommentDto)
         {
             var commentDto = await _commentService.InsertCommentAsync(insertCommentDto);
-            return Created($"/api/comments/{commentDto.Id}", new { Message = "Comment Created", Data = commentDto });
+            return Ok( new { Message = "Comment Created", Data = commentDto });
         }
 
         [HttpPut("{id:Guid}"), Authorize]

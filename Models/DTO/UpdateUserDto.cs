@@ -5,8 +5,6 @@ namespace SecondTimeAttempt.Models.DTO
 {
     public class UpdateUserDto
     {
-
-
         [Required(ErrorMessage = "Name is required")]
         [StringLength(30, ErrorMessage = "Name must be less than 30 characters")]
         public string Name { get; set; }

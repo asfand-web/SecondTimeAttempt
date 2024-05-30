@@ -5,8 +5,6 @@ namespace SecondTimeAttempt.Models.DTO
 {
     public class UserDto
     {
-
-      
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
