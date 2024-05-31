@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SecondTimeAttempt.Data;
+using SecondTimeAttempt.Models.Domain;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SecondTimeAttempt.Repositories
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T> where T : BaseModel<Guid>
     {
         Task<List<T>> GetAllAsync();
         Task<T> GetByIdAsync(Guid id);
@@ -15,7 +16,7 @@ namespace SecondTimeAttempt.Repositories
         Task<bool> DeleteAsync(Guid id);
     }
 
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel<Guid>
     {
         private readonly ApiDbContext _dbContext;
         private readonly DbSet<T> _dbSet;

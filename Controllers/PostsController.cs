@@ -46,7 +46,7 @@ namespace SecondTimeAttempt.Controllers
         }
 
         [HttpPut("{id:Guid}"), Authorize]
-        public async Task<IActionResult> UpdateById([FromRoute] Guid id, [FromForm] UpdatePostDto updatePostDto)
+        public async Task<IActionResult> UpdateById([FromRoute] Guid id, [FromBody] UpdatePostDto updatePostDto)
         {
             var postDto = await _postService.UpdatePostAsync(id, updatePostDto);
             return Ok(new { Message = "Post Updated", Data = postDto });

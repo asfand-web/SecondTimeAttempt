@@ -1,18 +1,11 @@
-﻿using Microsoft.Extensions.Hosting;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
 namespace SecondTimeAttempt.Models.Domain
 {
-    public class Comment
+    public class Comment : BaseModel<Guid>
     {
-        [Key]
-        public Guid Id { get; set; }
-
-        public string Text { get; set; } = null!;
+        public string Text { get; set; }
         public int Rating { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
 
         // reference navigation property
         public Guid PostId { get; set; }
