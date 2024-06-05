@@ -10,6 +10,7 @@ namespace SecondTimeAttempt.Models.DTO
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email format")]
         public string Email { get; set; }
+        public bool IsEmailConfirmed { get; set; } = false;
 
         public required string PasswordHash { get; set; }
     }

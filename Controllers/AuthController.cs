@@ -2,6 +2,8 @@
 using SecondTimeAttempt.Models.DTO;
 using SecondTimeAttempt.Services;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SecondTimeAttempt.Controllers
 {
@@ -22,7 +24,7 @@ namespace SecondTimeAttempt.Controllers
             try
             {
                 var responseDto = await _authService.Register(request);
-                return Ok(new { Message = "User successfully registered", User = responseDto });
+                return Ok(new { Message = responseDto.Message, Email = responseDto.Email });
             }
             catch (Exception ex)
             {
@@ -35,8 +37,26 @@ namespace SecondTimeAttempt.Controllers
         {
             try
             {
-                string token = await _authService.Login(request);
-                return Ok(new { Token = token });
+                var response = await _authService.Login(request);
+                if (response.Token == null)
+                {
+                    return Ok(new { Message = response.Message });
+                }
+                return Ok(new { Token = response.Token, Message = response.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = ex.Message });
+            }
+        }
+
+        [HttpPost("confirm-email")]
+        public async Task<ActionResult> ConfirmEmail([FromBody] string token)
+        {
+            try
+            {
+                await _authService.ConfirmEmailAsync(token);
+                return Ok(new { Message = "Email successfully confirmed" });
             }
             catch (Exception ex)
             {

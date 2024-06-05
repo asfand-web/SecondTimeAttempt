@@ -9,6 +9,7 @@ using SecondTimeAttempt.MappingProfiles;
 using SecondTimeAttempt.Repositories;
 using SecondTimeAttempt.Services;
 using Swashbuckle.AspNetCore.Filters;
+using System;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -86,6 +87,9 @@ builder.Services.AddAuthentication(options =>
 
 // Add HttpContextAccessor for accessing HTTP context
 builder.Services.AddHttpContextAccessor();
+
+// Register EmailService
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 

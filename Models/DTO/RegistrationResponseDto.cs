@@ -4,9 +4,10 @@ using System.ComponentModel.DataAnnotations;
 namespace SecondTimeAttempt.Models.DTO
 {
 
-    public class ResponseDto
+    public class RegistrationResponseDto
     {
-        public string Email { get; set; } 
+        public string Email { get; set; }
 
+        public string Message { get; set; }
     }
 }

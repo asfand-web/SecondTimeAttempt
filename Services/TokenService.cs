@@ -18,13 +18,16 @@ namespace SecondTimeAttempt.Services
             _configuration = configuration;
         }
 
-        public string CreateToken(User user)
+        // New parameter tokenType 
+        public string CreateToken(User user, string tokenType = "Access")
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Name),
-                new Claim("UserID", user.Id.ToString())
+                new Claim("UserID", user.Id.ToString()),
+                // New claim for TokenType
+                new Claim("TokenType", tokenType)
             };
 
             var secretKey = _configuration.GetSection("Jwt:SecretKey").Value;
@@ -34,11 +37,15 @@ namespace SecondTimeAttempt.Services
             var issuer = _configuration.GetSection("Jwt:Issuer").Value;
             var audience = _configuration.GetSection("Jwt:Audience").Value;
 
+            // New conditional expiration logic
+            var expiration = tokenType == "EmailConfirmation" ? DateTime.Now.AddHours(1) : DateTime.Now.AddDays(1);
+
             var token = new JwtSecurityToken(
                 issuer: issuer,
                 audience: audience,
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                // Updated to use the new expiration variable
+                expires: expiration,
                 signingCredentials: creds
             );
 
