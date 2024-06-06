@@ -1,8 +1,8 @@
-﻿using SecondTimeAttempt.Models.Domain;
-using SecondTimeAttempt.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SecondTimeAttempt.Models.Domain;
+using SecondTimeAttempt.Repositories;
 
 namespace SecondTimeAttempt.Services
 {
@@ -13,6 +13,7 @@ namespace SecondTimeAttempt.Services
         Task<User> InsertUserAsync(User user);
         Task<User> UpdateUserAsync(User user);
         Task<bool> DeleteUserAsync(Guid id);
+        Task<string> GetUserVerificationStatusByIdAsync(Guid id);  // New method
     }
 
     public class UserService : IUserService
@@ -47,6 +48,12 @@ namespace SecondTimeAttempt.Services
         public async Task<bool> DeleteUserAsync(Guid id)
         {
             return await _userRepository.DeleteAsync(id);
+        }
+
+        public async Task<string> GetUserVerificationStatusByIdAsync(Guid id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            return user != null ? user.VerificationStatus.ToString() : null;
         }
     }
 }

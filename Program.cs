@@ -106,7 +106,7 @@ app.UseHttpsRedirection();
 // Enable authentication and authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseMiddleware<VerificationStatusMiddleware>();
 // Map controller routes
 app.MapControllers();
 

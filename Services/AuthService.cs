@@ -32,6 +32,13 @@ namespace SecondTimeAttempt.Services
 
         public async Task<RegistrationResponseDto> Register(UserRegisterDto request)
         {
+            var existingUser = await _authRepository.GetUserByEmailAsync(request.Email);
+
+            if (existingUser != null)
+            {
+                throw new ArgumentException("User with this email already exists");
+            }
+
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
             var newUser = new User
             {
@@ -80,20 +87,26 @@ namespace SecondTimeAttempt.Services
             var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserID")?.Value;
             var tokenType = jwtToken.Claims.FirstOrDefault(c => c.Type == "TokenType")?.Value;
 
-            if (emailClaim == null || userIdClaim == null || tokenType != "EmailConfirmation")
+            if (emailClaim is null || userIdClaim is null || tokenType != "EmailConfirmation")
             {
                 throw new ArgumentException("Invalid token");
             }
 
             var user = await _authRepository.GetUserByEmailAsync(emailClaim);
-            if (user == null || user.Id.ToString() != userIdClaim)
+            if (user is null || user.Id.ToString() != userIdClaim)
             {
                 throw new ArgumentException("Invalid token");
+            }
+
+            if (user.IsEmailConfirmed)
+            {
+                throw new InvalidOperationException("You have already confirmed the email");
             }
 
             user.IsEmailConfirmed = true;
             user.VerificationStatus = UserVerificationStatus.Verified;
             await _authRepository.SaveChangesAsync();
         }
+
     }
 }
