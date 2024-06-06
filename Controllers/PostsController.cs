@@ -52,7 +52,7 @@ namespace SecondTimeAttempt.Controllers
             return Ok(new { Message = "Post Updated", Data = postDto });
         }
 
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{id:Guid}"), Authorize]
         public async Task<IActionResult> DeleteById([FromRoute] Guid id)
         {
             var isDeleted = await _postService.DeletePostAsync(id);

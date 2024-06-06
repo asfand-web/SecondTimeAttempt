@@ -26,7 +26,7 @@ namespace SecondTimeAttempt.Controllers
             return Ok(new { Message = "Successfully fetched the comments", Data = commentsDto });
         }
 
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{id:Guid}"), Authorize]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var commentDto = await _commentService.GetCommentByIdAsync(id);
@@ -52,7 +52,7 @@ namespace SecondTimeAttempt.Controllers
             return Ok(new { Message = "Comment Updated", Data = commentDto });
         }
 
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{id:Guid}"), Authorize]
         public async Task<IActionResult> DeleteById([FromRoute] Guid id)
         {
             var isDeleted = await _commentService.DeleteCommentAsync(id);

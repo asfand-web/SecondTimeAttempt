@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SecondTimeAttempt.Models.Domain;
 using SecondTimeAttempt.Models.DTO;
 using SecondTimeAttempt.Services;
@@ -18,14 +19,14 @@ namespace SecondTimeAttempt.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet,Authorize]
         public async Task<IActionResult> GetAll()
         {
             var usersDto = await _userService.GetAllUsersAsync();
             return Ok(new { Message = "Success from GetAll Action method", Data = usersDto });
         }
 
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{id:Guid}"), Authorize]
         public async Task<IActionResult> GetById(Guid id)
         {
             var userDto = await _userService.GetUserByIdAsync(id);
@@ -35,7 +36,7 @@ namespace SecondTimeAttempt.Controllers
             return Ok(new { Message = "User found", Data = userDto });
         }
 
-        [HttpPost]
+        [HttpPost,Authorize]
         public async Task<IActionResult> InsertSingle([FromBody] InsertUserDto insertUserDto)
         {
             var newUser = new User
@@ -48,7 +49,7 @@ namespace SecondTimeAttempt.Controllers
             return Ok(new { Message = "User Created!", Data = newUserDto });
         }
 
-        [HttpPut("{id:Guid}")]
+        [HttpPut("{id:Guid}"),Authorize]
         public async Task<IActionResult> UpdateById(Guid id, [FromForm] UpdateUserDto updateUserDto)
         {
             var userToUpdate = await _userService.GetUserByIdAsync(id);
@@ -60,7 +61,7 @@ namespace SecondTimeAttempt.Controllers
             return Ok(new { Message = "User Updated", Data = updatedUserDto });
         }
 
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{id:Guid}"),Authorize]
         public async Task<IActionResult> DeleteById(Guid id)
         {
             var result = await _userService.DeleteUserAsync(id);
