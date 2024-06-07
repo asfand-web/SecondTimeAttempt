@@ -54,7 +54,7 @@ namespace SecondTimeAttempt.Repositories
         public async Task<bool> DeleteAsync(Guid id)
         {
             var entity = await _dbSet.FindAsync(id);
-            if (entity == null) return false;
+            if (entity is null) return false;
 
             _dbSet.Remove(entity);
             await _dbContext.SaveChangesAsync();

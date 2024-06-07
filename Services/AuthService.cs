@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using BCrypt.Net;
 using System.Security.Claims;
+using SecondTimeAttempt.Models.Domain.Enums;
+
 
 namespace SecondTimeAttempt.Services
 {
