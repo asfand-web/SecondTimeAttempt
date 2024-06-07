@@ -13,7 +13,7 @@ public class VerificationStatusMiddleware
 
     public async Task InvokeAsync(HttpContext context, IUserService userService)
     {
-        if (context.User.Identity?.IsAuthenticated == true)
+        if (context.User.Identity?.IsAuthenticated is true)
         {
             var userIdClaim = context.User.Claims.FirstOrDefault(c => c.Type == "UserID")?.Value;
             if (Guid.TryParse(userIdClaim, out var userId))
