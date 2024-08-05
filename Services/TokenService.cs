@@ -38,13 +38,13 @@ namespace SecondTimeAttempt.Services
             var audience = _configuration.GetSection("Jwt:Audience").Value;
 
             // New conditional expiration logic
-            var expiration = tokenType == "EmailConfirmation" ? DateTime.Now.AddHours(1) : DateTime.Now.AddDays(1);
+            var expiration = tokenType is "EmailConfirmation" ? DateTime.Now.AddHours(1) : DateTime.Now.AddDays(1);
 
             var token = new JwtSecurityToken(
                 issuer: issuer,
                 audience: audience,
                 claims: claims,
-                // Updated to use the new expiration variable
+           // Updated to use the new expiration variable
                 expires: expiration,
                 signingCredentials: creds
             );

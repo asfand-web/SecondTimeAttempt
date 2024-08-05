@@ -18,7 +18,7 @@ namespace SecondTimeAttempt.Controllers
             _authService = authService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<ActionResult> Register(UserRegisterDto request)
         {
             try
@@ -32,7 +32,7 @@ namespace SecondTimeAttempt.Controllers
             }
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<ActionResult> Login(UserRegisterDto request)
         {
             try
@@ -50,7 +50,7 @@ namespace SecondTimeAttempt.Controllers
             }
         }
 
-        [HttpPost("confirm-email")]
+        [HttpPost("Confirm-Email")]
         public async Task<ActionResult> ConfirmEmail([FromBody] string token)
         {
             try

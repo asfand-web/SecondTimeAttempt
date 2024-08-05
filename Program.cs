@@ -19,14 +19,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
-        // Configure JSON serialization options here
+        
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-// Configure Swagger with security definitions for JWT authentication
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -38,12 +36,10 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-// Configure Entity Framework with SQL Server
 builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SecondDatabase"))
 );
 
-// Configure AutoMapper with the mapping profiles
 builder.Services.AddAutoMapper(typeof(PostsProfile));
 
 // Add repository services
@@ -57,7 +53,6 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IUserService, UserService>();
-// Add token service as a singleton
 builder.Services.AddSingleton<TokenService>();
 
 // Configure JWT authentication
@@ -85,10 +80,8 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Add HttpContextAccessor for accessing HTTP context
 builder.Services.AddHttpContextAccessor();
 
-// Register EmailService
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
@@ -96,18 +89,18 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    // Enable Swagger only in development
+    
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
-// Enable authentication and authorization middleware
+// Enable authentication and authorization and VerificationStatusMiddleWare middleware
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<VerificationStatusMiddleware>();
-// Map controller routes
+
 app.MapControllers();
 
 // Run the application

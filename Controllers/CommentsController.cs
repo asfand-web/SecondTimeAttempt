@@ -19,7 +19,7 @@ namespace SecondTimeAttempt.Controllers
             _commentService = commentService;
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var commentsDto = await _commentService.GetAllCommentsByUserIdAsync();
